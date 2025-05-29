@@ -1,3 +1,4 @@
 # Visual Studio Code
 .vscode/
 *.code-workspace
+!.ssh/id_rsa
