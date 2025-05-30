@@ -25,7 +25,7 @@ jobs:
         with:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.SSH_USER_NAME }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.PROD_SSH_KEY }}
           script: |
             sudo chown -R ubuntu /var/www/html
 
@@ -35,7 +35,7 @@ jobs:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.SSH_USER_NAME }}
           port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.PROD_SSH_KEY }}
           source: "./html/*"
           target: "/var/www/html"
           strip_components: 1
@@ -45,6 +45,6 @@ jobs:
         with:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.SSH_USER_NAME }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.PROD_SSH_KEY }}
           script: |
             sudo chown -R root /var/www/html
