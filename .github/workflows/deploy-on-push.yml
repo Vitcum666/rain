@@ -4,14 +4,19 @@ jobs:
   deploy-app:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the code
+      - name: check out the code to build server
         uses: actions/checkout@v4
 
-      - name: Delete existing index.html on remote server
+      - name: Prepare SSH folder
         run: |
-          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER_NAME }}@${{ secrets.HOST }} "sudo rm -f /var/www/html/index.html"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
 
-      - name: Copy files to server
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: copy file to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -21,6 +26,3 @@ jobs:
           source: "./html/*"
           target: "/var/www/html"
           strip_components: 1
-          timeout: 30s
-          command_timeout: 10m
-          protocol: tcp
